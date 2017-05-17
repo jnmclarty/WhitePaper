@@ -172,9 +172,9 @@ Let $\alpha _ x$ be the principal balance and and accrued interest the borrower 
 Let $\gamma _ x$ be the amount paid back by the borrower in actuality<br>
 Let $\delta _ x$ be the probability of $x$ defaulting, as predicted in the RAA’s attestation.<br>
 Let $\beta$ be a hyperparameter we use to weight the importance of recall vs. precision<br>
-\[ p =\frac{\sum _ x min(\alpha _ x - \gamma _ x, \delta _ x\alpha _ x)}{\sum _ x \delta _ x\alpha _ x}\]
-\[r=\frac{\sum _ x min(\alpha _ x - \gamma _ x, \delta _ x\alpha _ x)}{\sum _ x(\alpha _ x - \gamma _ x)}\]
-\[ F _ \beta=\frac{(1+\beta^2)pr}{\beta^2p + r} \]
+$$ p =\frac{\sum _ x min(\alpha _ x - \gamma _ x, \delta _ x\alpha _ x)}{\sum _ x \delta _ x\alpha _ x} $$
+$$ r=\frac{\sum _ x min(\alpha _ x - \gamma _ x, \delta _ x\alpha _ x)}{\sum _ x(\alpha _ x - \gamma _ x)} $$
+$$ F _ \beta=\frac{(1+\beta^2)pr}{\beta^2p + r} $$
 
 The $F_\beta$  metric is a helpful signal as to an RAA’s ability to predict defaults, but, from a borrower perspective, does not provide a signal as to how much weight the RAA’s attestation carries with investors.  By dividing the sum value of loans funded by the sum value of loans requested in an RAA’s attested portfolio, we can compute a simple baseline metric with which borrowers can evaluate how likely it is that their loan will be funded with an RAA’s attestation.  Future work will go into integrating metrics and signals that more accurately account for inherent differences in the RAA’s locales and risk-profile specialties (i.e. an RAA that specializes in attesting to subprime borrowers would be unfairly judged by the last metric).
 
