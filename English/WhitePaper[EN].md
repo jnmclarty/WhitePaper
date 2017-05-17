@@ -43,7 +43,7 @@ _NOTE: None of the entities in the figure above have provided any sort of explic
 
 _NOTE: While the Dharma Protocol is designed to support a gamut of blockchains at its lowest level, this white paper outlines the function of each layer within only the context of Solidity smart contracts on top of Ethereum.  Future work will detail the Dharma Loan Standard abstraction in a broader, more generally applicable description in order to allow for modularity at the blockchain level._
 
-<h4 align='center'>LOAN LAYER</h4>
+<h5 align='center'>LOAN LAYER</h5>
 
 Every loan in the Dharma protocol is represented by an individual smart contract that serves as a central hub for all business logic related to loan payouts, ownership, attestation data, and term data.  Contracts must strictly adhere to the Dharma Loan Standard in order to be considered valid loans.  **The Dharma Loan Standard is a super-set of the ERC20 token standard, in that investors’ stakes in loans can be traded and stored as digital tokens in ERC20-compliant exchanges and wallets.**
 
@@ -71,7 +71,7 @@ _(i.e. Morty sells his stake in the loan to Summer and transfers his stake over 
 
 A reference implementation for a simple loan prototype can be found [here](http://gateway.ipfs.io/ipfs/QmemEAsE3iWVewPHYnTvK4pCDnDKNXE1EKH8aXGf9DR2NL).
 
-<h4 align='center'>ORIGINATION LAYER</h4>
+<h5 align='center'>ORIGINATION LAYER</h5>
 
 The function of the origination layer is to match borrowers to lenders in a manner that is decentralized and censorship-resistant.  
 
@@ -98,7 +98,7 @@ The Dharma Loan Browser is an Electron application that allows investors to brow
 
 <p align='center'><b>FAQ</b>: Who maintains the contract reference set?</p>
 
-<h4 align='center'>RISK-ASSESSMENT LAYER</h4>
+<h5 align='center'>RISK-ASSESSMENT LAYER</h5>
 
 The amount of lending capital that will enter the Dharma Ecosystem is a direct function of the risks lenders are willing to take on by investing.  The purpose of the Risk-Assessment Layer is to mitigate the fraud, default, and compliance risks lenders are exposed to.  This is accomplished by requiring DLS-adherent loans to expose a publicly auditable, signed attestation from a Risk-Assessment Attestor<sup><a id="a7" href='#f7'>7</a></sup>.
 
