@@ -1,5 +1,5 @@
 <h3 align='center'>DHARMA.IO</h3>
-<h4 align='center'>A DECENTRALIZED PROTOCOL <br>FOR PEER-TO-PEER LENDING</h4>
+<h4 class='subtitle' align='center'>A DECENTRALIZED PROTOCOL <br>FOR PEER-TO-PEER LENDING</h4>
 <p align='center'>v1.0</p>
 
 <p align='center'>Nadav Hollander</br>
