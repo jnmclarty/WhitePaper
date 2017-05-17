@@ -249,7 +249,7 @@ Lenders greatly value a degree of liquidity in their investments, as evinced by 
 <h6 align='center'>FAQ</h6>
 
 1. **Is Dharma.io going to issue a protocol token?**<br>
-We currently are not planning on issuing a protocol token or pursuing any sort of token-based crowdfund.
+We currently are not planning on issuing a protocol token or pursuing any sort of token-based crowd-fund.
 
 2. **RAAs are centralized entities -- why would the law treat an RAA any differently than peer-to-peer lenders are today?**<br>
 In the United States, there is a legal distinction between a bank or lending practice that originates loans and an entity that acts as an Investment Adviser, the latter defined as ‘any person who for compensation engages in the business of advising others as to the value of securities, or as to the advisability of investing in, purchasing or selling securities, or who issues reports or analyses concerning securities as part of a regular business’<sup><a id="a22" href='#f22'>22</a></sup>  Since RAAs do not directly match borrowers to lenders or originate loans in any respect, their function in the legal context much more closely resembles that of an Investment Adviser than that of a lender per se.
