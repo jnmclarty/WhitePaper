@@ -168,13 +168,13 @@ _RAA Accountability_:<br>
 Initially, the number of entities providing RAA services will likely be small enough such that informal, social reputation will be sufficient to drive the market towards the best RAAs and deter malicious behavior.  As the network grows, however, a formalized reputation system will be critical to deterring RAAs from colluding with fraudulent borrowers.  We propose a simple $F_{\beta}$ metric for RAA accountability that borrows from the statistical analysis of binary classification in order to classify how accurate RAA default predictions are<sup><a id="a12" href='#f12'>12</a></sup>:
 
 Let $x \in {1,...,n}$ be a loan in the RAA’s portfolio of the $n$ loans he has attested to<sup><a id="a13" href='#f13'>13</a></sup><br>
-Let $\alpha_x$ be the principal balance and and accrued interest the borrower of $x$ is liable for<br>
-Let $\gamma_x$ be the amount paid back by the borrower in actuality<br>
-Let $\delta_x$ be the probability of $x$ defaulting, as predicted in the RAA’s attestation.<br>
+Let $\alpha _ x$ be the principal balance and and accrued interest the borrower of $x$ is liable for<br>
+Let $\gamma _ x$ be the amount paid back by the borrower in actuality<br>
+Let $\delta _ x$ be the probability of $x$ defaulting, as predicted in the RAA’s attestation.<br>
 Let $\beta$ be a hyperparameter we use to weight the importance of recall vs. precision<br>
-\[ p =\frac{\sum_x min(\alpha_x - \gamma_x, \delta_x\alpha_x)}{\sum_x \delta_x\alpha_x}\]
-\[r=\frac{\sum_x min(\alpha_x - \gamma_x, \delta_x\alpha_x)}{\sum_x(\alpha_x - \gamma_x)}\]
-\[ F_\beta=\frac{(1+\beta^2)pr}{\beta^2p + r} \]
+\[ p =\frac{\sum _ x min(\alpha _ x - \gamma _ x, \delta _ x\alpha _ x)}{\sum _ x \delta _ x\alpha _ x}\]
+\[r=\frac{\sum _ x min(\alpha _ x - \gamma _ x, \delta _ x\alpha _ x)}{\sum _ x(\alpha _ x - \gamma _ x)}\]
+\[ F _ \beta=\frac{(1+\beta^2)pr}{\beta^2p + r} \]
 
 The $F_\beta$  metric is a helpful signal as to an RAA’s ability to predict defaults, but, from a borrower perspective, does not provide a signal as to how much weight the RAA’s attestation carries with investors.  By dividing the sum value of loans funded by the sum value of loans requested in an RAA’s attested portfolio, we can compute a simple baseline metric with which borrowers can evaluate how likely it is that their loan will be funded with an RAA’s attestation.  Future work will go into integrating metrics and signals that more accurately account for inherent differences in the RAA’s locales and risk-profile specialties (i.e. an RAA that specializes in attesting to subprime borrowers would be unfairly judged by the last metric).
 
