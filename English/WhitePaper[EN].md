@@ -165,7 +165,7 @@ Any entity in the world with a reasonable proxy for assessing a borrower’s ide
 7. Religious Organizations
 
 _RAA Accountability_:<br>
-Initially, the number of entities providing RAA services will likely be small enough such that informal, social reputation will be sufficient to drive the market towards the best RAAs and deter malicious behavior.  As the network grows, however, a formalized reputation system will be critical to deterring RAAs from colluding with fraudulent borrowers.  We propose a simple $F_{\beta}$ metric for RAA accountability that borrows from the statistical analysis of binary classification in order to classify how accurate RAA default predictions are<sup><a id="a12" href='#f12'>12</a></sup>:
+Initially, the number of entities providing RAA services will likely be small enough such that informal, social reputation will be sufficient to drive the market towards the best RAAs and deter malicious behavior.  As the network grows, however, a formalized reputation system will be critical to deterring RAAs from colluding with fraudulent borrowers.  We propose a simple $$F_{\beta}$$ metric for RAA accountability that borrows from the statistical analysis of binary classification in order to classify how accurate RAA default predictions are<sup><a id="a12" href='#f12'>12</a></sup>:
 
 Let $x \in {1,...,n}$ be a loan in the RAA’s portfolio of the $n$ loans he has attested to<sup><a id="a13" href='#f13'>13</a></sup><br>
 Let $\alpha_x$ be the principal balance and and accrued interest the borrower of $x$ is liable for<br>
