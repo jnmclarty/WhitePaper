@@ -8,11 +8,11 @@
 Stanford University ‘17</i></br>
 </p>
 
-<h5 align='center'>ABSTRACT</h5>
+<h4 align='center'>ABSTRACT</h4>
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this white paper, we present a novel protocol for decentralized issuance, origination, risk-assessment, and underwriting of peer-to-peer loans on blockchains supporting requisite smart contract functionality (most notably, the Ethereum blockchain).  We leverage a tiered architecture, in which loans are issued as smart contracts adhering to a standardized interface a la ERC20, borrowers and lenders are matched via decentralized origination software, and fraud, default, and compliance risk are mitigated via centralized risk-assessment attestors.  The protocol is designed to support a robust ecosystem of competing software clients, risk-assessment mechanisms, and last-mile providers to bring loan products of flexible ticket-size and type to any credit-worthy individual in the world in a seamless, digital manner.
 
-<h5 align='center'>INTRODUCTION</h5>
+<h4 align='center'>INTRODUCTION</h4>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cryptocurrencies and blockchains hold tremendous potential for delivering financial services to the estimated 2 billion adults who lack access to them today due to political, social, or economic factors.   Digital currencies and blockchain technology hold promise to disintermediate the monopolistic stalwarts of the financial industry and give financial services the same affordability, global accessibility, developer extensibility, and ease-of-use the Web gave information and content.
 
@@ -22,14 +22,14 @@ lending platform as globally accessible and borderless as, say, Facebook would d
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thus, we propose a system in which the underlying issuance, pricing, payment, credit scoring, and origination mechanisms of the peer-to-peer lending process are abstracted away into a shared, decentralized infrastructure, enabling online borrowers to connect and transact with lenders without having to rely on heavily regulated marketplace lending platforms as intermediaries -- irrespective of a borrower’s location or access to traditional banking.   This as well as other impetus for the Dharma Protocol are elaborated on elsewhere.
 
 
-<h5 align='center'>GOALS</h5>
+<h4 align='center'>GOALS</h4>
 
 Goal: _Build a globally accessible digital currency lending network in which_
 1. Any individual with Internet access can quickly and practically take out a loan
 2. Any individual with Internet access can reliably assess a borrower’s credit-worthiness and invest in loans anywhere in the world under a predictable risk-profile
 3. Any enterprising entrepreneur can, with relatively little technical / regulatory overhead, tap into the Dharma network in order to add a line of credit into whatever application she envisions
 
-<h5 align='center'>ARCHITECTURE</h5>
+<h4 align='center'>ARCHITECTURE</h4>
 
 Inspired by the “thin-waisted” architecture of the Internet networking stack, we have designed the Dharma Protocol in such a manner that interoperability and modularity are intrinsic.  The protocol is abstracted into three layers: the “Loan Layer”, the “Origination Layer”, and the “Risk-Assessment Layer”.  Much like the layers of the Internet networking stack, each layer allows for a host of competing implementations and clients.
 
@@ -43,7 +43,7 @@ _NOTE: None of the entities in the figure above have provided any sort of explic
 
 _NOTE: While the Dharma Protocol is designed to support a gamut of blockchains at its lowest level, this white paper outlines the function of each layer within only the context of Solidity smart contracts on top of Ethereum.  Future work will detail the Dharma Loan Standard abstraction in a broader, more generally applicable description in order to allow for modularity at the blockchain level._
 
-<h5 align='center'>LOAN LAYER</h5>
+<h4 align='center'>LOAN LAYER</h4>
 
 Every loan in the Dharma protocol is represented by an individual smart contract that serves as a central hub for all business logic related to loan payouts, ownership, attestation data, and term data.  Contracts must strictly adhere to the Dharma Loan Standard in order to be considered valid loans.  **The Dharma Loan Standard is a super-set of the ERC20 token standard, in that investors’ stakes in loans can be traded and stored as digital tokens in ERC20-compliant exchanges and wallets.**
 
@@ -71,7 +71,7 @@ _(i.e. Morty sells his stake in the loan to Summer and transfers his stake over 
 
 A reference implementation for a simple loan prototype can be found [here](http://gateway.ipfs.io/ipfs/QmemEAsE3iWVewPHYnTvK4pCDnDKNXE1EKH8aXGf9DR2NL).
 
-<h5 align='center'>ORIGINATION LAYER</h5>
+<h4 align='center'>ORIGINATION LAYER</h4>
 
 The function of the origination layer is to match borrowers to lenders in a manner that is decentralized and censorship-resistant.  
 
@@ -98,7 +98,7 @@ The Dharma Loan Browser is an Electron application that allows investors to brow
 
 <p align='center'><b>FAQ</b>: Who maintains the contract reference set?</p>
 
-<h5 align='center'>RISK-ASSESSMENT LAYER</h5>
+<h4 align='center'>RISK-ASSESSMENT LAYER</h4>
 
 The amount of lending capital that will enter the Dharma Ecosystem is a direct function of the risks lenders are willing to take on by investing.  The purpose of the Risk-Assessment Layer is to mitigate the fraud, default, and compliance risks lenders are exposed to.  This is accomplished by requiring DLS-adherent loans to expose a publicly auditable, signed attestation from a Risk-Assessment Attestor<sup><a id="a7" href='#f7'>7</a></sup>.
 
@@ -178,7 +178,7 @@ Let $\beta$ be a hyperparameter we use to weight the importance of recall vs. pr
 
 The $F_\beta$  metric is a helpful signal as to an RAA’s ability to predict defaults, but, from a borrower perspective, does not provide a signal as to how much weight the RAA’s attestation carries with investors.  By dividing the sum value of loans funded by the sum value of loans requested in an RAA’s attested portfolio, we can compute a simple baseline metric with which borrowers can evaluate how likely it is that their loan will be funded with an RAA’s attestation.  Future work will go into integrating metrics and signals that more accurately account for inherent differences in the RAA’s locales and risk-profile specialties (i.e. an RAA that specializes in attesting to subprime borrowers would be unfairly judged by the last metric).
 
-<h5 align='center'>LOAN LIFECYCLE</h5>
+<h4 align='center'>LOAN LIFECYCLE</h4>
 
 A typical loan goes through the following lifecycle:
 
@@ -197,7 +197,7 @@ Loan repayment will either be expected on a single date, on an amortized basis o
 5. **COLLECTION PERIOD**<br>
 If a borrower neglects to meet a repayment deadline and a predefined grace period has lapsed, the loan enters a state of default.  In the short-term, lenders will likely be limited in their means of making themselves whole again.  If the network achieves critical mass and smart contracts begin receiving commonplace legal recognition, however, entities similar to collection agencies could emerge, purchasing loans in default from lenders for a fraction of their nominal value and collecting on them using traditional levers of the legal system.
 
-<h5 align='center'>CHALLENGES</h5>
+<h4 align='center'>CHALLENGES</h4>
 
 _Default Deterrence_<br>
 In traditional retail lending schemes, borrowers are dissuaded from defaulting for fear of primarily two things: repercussions on their future creditworthiness, and legal actions forcing either a forfeiture of assets or bankruptcy.  The Dharma Protocol replicates the first as part of the Risk-Assessment Attestation mechanism described above.  However, the levers of the legal system will likely be unavailable to lenders in the Dharma ecosystem, given the challenges inherent to employing legal resources in the context of international lending and, especially, developing world lending<sup><a id="a16" href='#f16'>16</a></sup>.    
@@ -211,7 +211,7 @@ The current volatility of crypto-currencies makes crypto-denominated loans signi
 _Privacy_<br>
 An individual’s credit profile and financial history are extremely sensitive data points -- it is crucial for the Dharma Network to guard the privacy of borrowers on the network.  At the same time, lenders need to have access to the requisite data points to make intelligent investment decisions.  This is a conflict inherent to any open lending protocol.  We attempt to bridge the gap by mandating RAAs respect borrower pseudonymity by submitting attestations that do not contain details that could leak aspects of a borrower’s identity<sup><a id="a18" href='#f18'>18</a></sup> -- RAAs merely predict the default risk of whichever pseudonymous entity controls the public key associated with the loan.
 
-<h5 align='center'>ATTACKS</h5>
+<h4 align='center'>ATTACKS</h4>
 
 _Sybil_:<br>
 Sybil attacks are detrimental to the Dharma Network insofar as a borrower who is able to take out multiple loans under different assumed identities is not deterred from defaulting by adverse effects on his future credit-worthiness.  The risk-assessment attestation mechanism mitigates this risk to a hopefully workable degree, but there is still a risk of leakage.  For one, identity verification is an imperfect process and a certain portion of borrowers will successfully assume fraudulent identities.  The portion of borrowers who successfully mislead RAAs is a function of the RAA’s competence in identity verification due diligence, however, and RAA accountability metrics should capture the extent to which actual default rates have exceeded the RAA’s predictions.  As such, since the market will gravitate towards investing in loans attested to by the best-rated RAAs, RAAs incentives will be aligned with that of investors in minimizing identity fraud.  Another Sybil vulnerability emerges if a group of RAAs are not cooperating in some capacity, in that a borrower could assume multiple identities by receiving attestations from multiple RAAs.  Tackling this vulnerability requires RAAs cooperate to some degree in order to maintain comprehensive means of cross referencing attestations produced by other RAAs while shielding a borrower’s true identity from the general public -- similarly to how credit bureaus share data with one another in current retail lending schemes.
@@ -222,7 +222,7 @@ RAAs must be trusted entities in order for the system to function, since malicio
 _Attestation Replay_:<br>
 Once a borrower has received a signed attestation from an RAA, precautions need to be taken to make sure the borrower is unable to broadcast a new loan contract with the same attestation in the future.  As such, as part of the risk-assessment process, the borrower must provide the RAA with the account address the contract will be deployed to.  So long as the contract address is included in the attestation schema signed by the RAA, a replay attack will be detectable by any compliant loan browser.
 
-<h5 align='center'>FUTURE WORK</h5>
+<h4 align='center'>FUTURE WORK</h4>
 
 At the protocol level, the lion’s share of future work will pertain to releasing standardized schemas for risk-assessment attestations, loan terms, and auditing the security properties of reference loan contract implementations.  There are greenfield opportunities, however, for future research in the following areas:
 
@@ -238,7 +238,7 @@ In traditional lending markets, loan securitization is a major driver of liquidi
 _Revolving Lines of Credit_:<br>
 Americans alone owe an estimated $779 billion in credit card debt -- a testament to the appeal of short-term, revolving lines of credit as a form of debt.  Augmenting the DLS-interface to support revolving lines of credit would allow the Dharma protocol to support what are effectively digital, programmable credit cards.
 
-<h5 align='center'>MISCELLANIA</h5>
+<h4 align='center'>MISCELLANIA</h4>
 
 _Price-Feed_:<br>
 Until stable or fiat-backed tokens are readily usable in the Ethereum ecosystem, loans on the Dharma network will be denominated in fiat currencies and paid out in Ether.  In order to make sure that borrowers and lenders are in concert with respect to the price of ETH at any given time, loan terms must include a specified and reachable price feed with an ETH / fiat trading pair history.  The price feed specification must be committed to on-chain as part of the publicly auditable loan terms. The price feed is primarily used to assess ex post facto whether a repayment to the loan contract was sufficient or if it constituted a partial default.   Since the price feed does not dictate any on-chain logic, it is sufficient for a price feed to be reachable only off-chain.
@@ -246,7 +246,7 @@ Until stable or fiat-backed tokens are readily usable in the Ethereum ecosystem,
 _Secondary Market Functionality_:<br>
 Lenders greatly value a degree of liquidity in their investments, as evinced by the fact that many of the largest peer-to-peer lending platforms have invested heavily in integrating secondary market functionality into their platforms<sup><a id="a20" href='#f20'>20</a></sup>.  Secondary market functionality is baked into the Dharma Loan Standard insofar as loan contracts must implement functionality to transfer a lender’s ownership to a different address.  With several decentralized exchange projects either in production or in the works,<sup><a id="a21" href='#f21'>21</a></sup> we hope to tailor the Dharma Loan Standard’s transfer functionality such that lenders could easily liquidate their loans on these platforms.
 
-<h5 align='center'>FAQ</h5>
+<h4 align='center'>FAQ</h4>
 
 1. **Is Dharma.io going to issue a protocol token?**<br>
 We currently are not planning on issuing a protocol token or pursuing any sort of token-based crowd-fund.
@@ -263,7 +263,7 @@ Eventually, we hope to reach a place where the platform supports a healthy ecosy
 5. **Who will maintain the reference set of DLS-compliant loan contracts?**<br>
 Initially, reference loan contracts will be maintained on an open-source repository hosted by Dharma.  Contributors and developers are encouraged to create PRs and bring whatever ideas and innovations they have to the table -- PRs will be merged in at Dharma’s discretion.  As time goes on, we hope to adopt a consortium-based model for maintenance of the DLS-compliant loan contract reference set a la W3C’s recommendations for consistent web standards across browsers.
 
-<h5 align='center'>FOOTNOTES</h5>
+<h4 align='center'>FOOTNOTES</h4>
 
 <b id="f1"><sup>1</sup></b>[BTCJam](https://btcjam.com/), [BitBond](https://www.bitbond.com/), [BitLendingClub](https://bitlendingclub.com/) [↩](#a1)<br>
 <b id="f2"><sup>2</sup></b>['Regulatory Pressure Forces BitLendingClub To Close'](https://news.bitcoin.com/regulatory-forces-bitlendingclub-close/) - Bitcoin.com [↩](#a2)<br>
