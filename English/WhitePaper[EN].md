@@ -96,7 +96,7 @@ There are a number of ways to implement clients geared toward this end -- each w
 _Dharma Loan Browser_<br>
 The Dharma Loan Browser is an Electron application that allows investors to browse a portfolio of unfulfilled loans by crawling the Ethereum blockchain in search of contracts adhering to the Dharma Loan Standard that are, as of yet, not fully funded.  In order to identify adherent contracts, the loan browser asserts equality between a given contract’s byte code and the compiled byte codes of a set of reference loan contract implementations.  This assertion is necessary in order to prevent malicious implementations of the DLS-adherent loans from appearing in the Loan Browser.  The Browser allows lenders to examine risk-assessment attestation data associated with each loan, audit standardized metrics that reflect a risk-assessment attestor’s reliability, filter and search through loans on a number of criteria, and, most importantly, serves as a wallet for funding and managing a portfolio of loan contracts.
 
-<p align='center'><b>FAQ</b>: Who maintains the contract reference set?</p>
+<p align='center'><b>FAQ</b>: <a href='#faq'>Who maintains the contract reference set?</a></p>
 
 <h5 align='center'>RISK-ASSESSMENT LAYER</h5>
 
