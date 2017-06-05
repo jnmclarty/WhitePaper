@@ -10,7 +10,7 @@ Stanford University ‘17</i></br>
 
 <h4 align='center' id='abstract'>ABSTRACT</h4>
 
-<p class='abstract'>In this white paper, we present a novel protocol for decentralized issuance, origination, risk-assessment, and underwriting of peer-to-peer loans on blockchains supporting requisite smart contract functionality (most notably, the Ethereum blockchain).  We leverage a tiered architecture, in which loans are issued as smart contracts adhering to a standardized interface a la ERC20, borrowers and lenders are matched via decentralized origination software, and fraud, default, sybil attack, and compliance risk are mitigated via a distributed network of centralized risk-assessment attesters.  The protocol is designed to support a robust ecosystem of competing software clients, risk-assessment mechanisms, and last-mile providers to bring loan products of flexible ticket-size and type to any credit-worthy individual in the world in a seamless, digital manner.</p>
+<p class='abstract'>In this white paper, we present a novel protocol for decentralized issuance, origination, risk-assessment, and underwriting of peer-to-peer loans on blockchains supporting requisite smart contract functionality (most notably, the Ethereum blockchain).  We leverage a tiered architecture, in which loans are issued as smart contracts adhering to a standardized interface a la ERC20, borrowers and lenders are matched via decentralized origination software, and fraud, default, sybil attack, and compliance risk are mitigated via a distributed marketplace of centralized risk-assessment attesters.  The protocol is designed to support a robust ecosystem of competing software clients, risk-assessment mechanisms, and last-mile providers to bring loan products of flexible ticket-size and type to any credit-worthy individual in the world in a seamless, digital manner.</p>
 
 <h4 align='center' id='introduction'>INTRODUCTION</h4>
 
@@ -49,7 +49,7 @@ Every loan in the Dharma protocol is represented by an individual smart contract
 
 The Dharma Loan Standard (DLS) requires a loan contract implement the following functionality:
 
-1.  `fundLoan()`:<br>
+1.  `fundLoan(address tokenRecipient)`:<br>
  **Serving as a vehicle for crowdfunding the loan**<br>_(i.e. investors Rick and Morty send X Ether to the contract, the contract transfers principal raised to borrower Jerry, contract records Rick and Morty’s ownership prorated by the amount each contributed)_
 
 2. `periodicRepayment()`:<br>
@@ -103,7 +103,7 @@ The Dharma Loan Browser is an Electron application that allows investors to brow
 The amount of lending capital that will enter the Dharma Ecosystem is a direct function of the risks lenders are willing to take on by investing.  The purpose of the Risk-Assessment Layer is to mitigate the fraud, default, and compliance risks lenders are exposed to.  This is accomplished by requiring DLS-adherent loans to expose a publicly auditable, signed attestation from a Risk-Assessment Attestor<sup><a id="a7" href='#f7'>7</a></sup>.
 
 _What is a Risk-Assessment Attestor (RAA)?_<br>
-An RAA is a centralized entity that, for a pre-defined percentage of the loan principal, assesses the veracity of a borrower’s identity and credit-worthiness, and cryptographically signs an attestation containing an assessment of the borrower’s risk profile<sup><a id="a8" href='#f8'>8</a></sup>.  Moreover, RAAs provide value-added services to minimize lender compliance risk with respect to usury regulations and   restrictions on sanctioned individuals or entities.  **RAA’s are held accountable to their assessments by a standardized set of metrics that are computed off-chain by origination layer clients and presented to lenders as a measurement of RAA trustworthiness and competence.**<sup><a id="a9" href='#f9'>9</a></sup>
+An RAA is a trusted, centralized entity that, for a pre-defined percentage of the loan principal, assesses the veracity of a borrower’s identity and credit-worthiness, and cryptographically signs an attestation containing an assessment of the borrower’s risk profile<sup><a id="a8" href='#f8'>8</a></sup>.  Moreover, RAAs provide value-added services to minimize lender compliance risk with respect to usury regulations and   restrictions on sanctioned individuals or entities.  **RAA’s are held accountable to their assessments by a standardized set of metrics that are computed off-chain by origination layer clients and presented to lenders as a measurement of RAA trustworthiness and competence.**<sup><a id="a9" href='#f9'>9</a></sup>  Borrowers are free to choose which RAA to solicit an attestation from and lenders are free to decide which RAAs' attestations they deem most trustworthy.  Insofar as this is the case, the risk-assessment layer can be thought of as a **risk-assessment marketplace** where, given the transparency inherent in an RAA's on-chain attestation history, the market should gravitate towards RAAs who are better at evaluating borrower risk.
 
 > Example: Galactic Federation Inc. is an RAA with a publicized public key of XYZ.
 If Jerry wants to take out a loan on the Dharma network, he first goes to
@@ -153,6 +153,8 @@ home planet..
 When a borrower’s identity has been sufficiently verified, the RAA signs a message containing all relevant data points produced in its risk-assessment processes using the private key associated with its publicized public key.  A borrower’s true identity remains obfuscated and the attestation simply provides the RAA’s assessment of the borrower’s likelihood of default.  Once the borrower deploys a loan contract to the network and the RAA has verified that the contract will indeed compensate the RAA the agreed upon percentage of the loan, the RAA will add its signed attestation to the loan contract.
 
 **In order to bootstrap the Dharma Loan Network and iterate on the protocol, Dharma.io will provide RAA services as part of a developer alpha program.  As time goes on, we hope other RAAs will emerge in order to create an ecosystem of attestors with varying loan type and risk profile expertise, and plan on creating tools that give entities means of becoming RAAs with little technical / regulatory overhead.**
+
+_Note: Initially, the Dharma Loan Browser will only surface loans attested to by a small, trusted cadre of 2-3 RAAs (Dharma.io included).  This is meant to reduce the attack surface of the protocol during its early development, given the significant added complexity of opening up the RAA Marketplace to untrusted parties._
 
 _Who would a Risk-Assessment Attestor be?_<br>
 Any entity in the world with a reasonable proxy for assessing a borrower’s identity and an interest in delivering credit products is in a profitable position to become an RAA.  This could include:
@@ -225,6 +227,8 @@ Once a borrower has received a signed attestation from an RAA, precautions need 
 <h4 align='center' id='future-work'>FUTURE WORK</h4>
 
 At the protocol level, the lion’s share of future work will pertain to releasing standardized schemas for risk-assessment attestations, loan terms, and auditing the security properties of reference loan contract implementations.  There are greenfield opportunities, however, for future research in the following areas:
+
+
 
 _Web-of-Trust Risk-Assessment_:<br>
 Security and identity models based on webs-of-trust have been extensively researched in the past and even implemented in some cases, most notably in PGP<sup><a id="a19" href='#f19'>19</a></sup>.  Webs-of-trust could prove very powerful in assessing credit-worthiness in a decentralized manner insofar as social capital is an underutilized signal in traditional credit-scoring schemes.  Though the current risk-assessment mechanism relies on centralized RAA entities, future specifications of Dharma could stipulate allowance for decentralized alternatives, such as webs-of-trust.
