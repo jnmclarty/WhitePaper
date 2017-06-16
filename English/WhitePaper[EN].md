@@ -1,6 +1,6 @@
 <h3 align='center'>DHARMA.IO</h3>
 <h3 class='subtitle' align='center'>A DECENTRALIZED PROTOCOL <br>FOR PEER-TO-PEER LENDING</h4>
-<p align='center'>v1.0</p>
+<p align='center'>v1.0.1</p>
 
 <p align='center'>Nadav Hollander</br>
 <a href='mailto:nadav@dharma.io'>nadav@dharma.io</a></br>
@@ -19,7 +19,7 @@ Stanford University ‘17</i></br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this spirit, several attempts have been made at leveraging the borderless nature of cryptocurrencies in order to provide online lending services in a similarly borderless fashion through peer-to-peer lending platforms<sup><a id="a1" href='#f1'>1</a></sup>, to varying degrees of success.  In nearly all cases, however, regulatory barriers have proven to be a significant barrier to global-scale adoption<sup><a id="a2" href='#f2'>2</a></sup><sup><a id="a3" href='#f3'>3</a></sup>.  This problem is not specific to crypto-currency based lending systems, but rather an intrinsic point of friction in the growth of the peer-to-peer lending industry -- operating a regulated
 lending platform as globally accessible and borderless as, say, Facebook would demand compliance with a rat’s nest of state regulatory regimes, bilateral trade agreements, and international lending laws.
 
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thus, we propose a system in which the underlying issuance, pricing, payment, credit scoring, and origination mechanisms of the peer-to-peer lending process are abstracted away into a shared, decentralized infrastructure, enabling online borrowers to connect and transact with lenders without having to rely on heavily regulated marketplace lending platforms as intermediaries -- irrespective of a borrower’s location or access to traditional banking.   This as well as other impetus for the Dharma Protocol are elaborated on elsewhere.
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thus, we propose a system in which the underlying issuance, pricing, payment, credit scoring, and origination mechanisms of the peer-to-peer lending process are abstracted away into a shared, decentralized infrastructure.  In turn, this empowers online borrowers to connect and transact with lenders without having to rely on heavily regulated marketplace lending platforms as intermediaries -- irrespective of a borrower’s location or access to traditional banking.   This as well as other impetus for the Dharma Protocol are elaborated on <a href="https://blog.dharma.io/introducing-dharma-a-decentralized-protocol-for-peer-to-peer-lending-9922964fa8c5">elsewhere</a>.
 
 
 <h4 align='center' id='goals'>GOALS</h4>
@@ -27,7 +27,7 @@ lending platform as globally accessible and borderless as, say, Facebook would d
 Goal: _Build a globally accessible digital currency lending network in which_
 1. Any individual with Internet access can quickly and practically take out a loan
 2. Any individual with Internet access can reliably assess a borrower’s credit-worthiness and invest in loans anywhere in the world under a predictable risk-profile
-3. Any enterprising entrepreneur can, with relatively little technical / regulatory overhead, tap into the Dharma network in order to add a line of credit into whatever application she envisions
+3. Any enterprising developer can, with relatively little technical / regulatory overhead, tap into the Dharma network in order to add a line of credit into whatever application she envisions
 
 <h4 align='center' id='architecture'>ARCHITECTURE</h4>
 
@@ -73,7 +73,7 @@ A reference implementation for a simple loan prototype can be found [here](http:
 
 <h5 align='center' id='architecture-origination-layer'>ORIGINATION LAYER</h5>
 
-The function of the origination layer is to match borrowers to lenders in a manner that is decentralized and censorship-resistant.  
+The function of the origination layer is to match borrowers to lenders in a decentralized and censorship-resistant manner.  
 
 From the borrower perspective, origination layer clients are responsible for:
 
