@@ -28,7 +28,7 @@ With Dharma protocol and the envisioned ecosystem a corporation could issue a bo
 2. Retrieving a history of payments to the token's owner
 3. Standardizing a blockchain-compatible pricing convention.
 
-** The Dharma protocol intends to bridge the aforementioned gaps and provide a permission-less, generic mechanism by which debt assets of flexible type can be issued, sold, administered, and priced without having to rely on centralized data brokers of any kind.**
+** Dharma protocol intends to bridge the aforementioned gaps and provide a permission-less, generic mechanism by which debt assets of flexible type can be issued, sold, administered, and priced without having to rely on centralized data brokers of any kind.**
 
 ## Architecture
 
