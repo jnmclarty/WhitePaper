@@ -1,36 +1,38 @@
 <center>
-  <h1>Dharma: A Generic Protocol for <br>Tokenized Debt Issuance</h1>
+  <h1>Dharma: A Generic Protocol to <br>Tokenize Debt</h1>
   Version 2.0<br>
   Nadav Hollander -- <a href='mailto:nadav@dharma.io'>nadav@dharma.io</a><br>
   <i>B.S. in Computer Science -- Stanford University ‘17</i>
   <h2 id="abstract">Abstract</h2>
 </center>
 <div style="text-align: justify; width: 600px; margin: 0 auto;">
-Dharma is a protocol that enables decentralized issuance and administration of tokenized debt.  The protocol creates a common informational interface so exchanges, brokerages, issuers and investors can facilitate trading and pricing of tokenized debt without having to rely on a singular centralized entity.  An object model creates two classes of service providers, underwriters and relayers, who compete in distinct marketplaces for incentives from fees.  The underwriters are trusted originators and assessors of default risk.  The relayers facilitate the issuance and funding of debt in a trust-less manner.  Both can be empirically evaluated on historical performance.  The Dharma debt issuance process only requires one on-chain transaction to execute and is heavily inspired by the mechanics of the 0x Protocol.</div>
+Dharma is a protocol that enables decentralized issuance and administration of tokenized debt.  The protocol creates a common informational interface so exchanges, brokerages, issuers and investors can facilitate trading and pricing of tokenized debt without having to rely on a singular centralized entity.  An object model creates two classes of service providers, underwriters and relayers, who compete in distinct marketplaces for incentives from fees.  The underwriters are trusted originators who can use their reputation to reduce credit risk by enriching any offering with certified meta data.  The relayers facilitate the issuance and funding of debt in a trust-less manner.  Optionally, both can be empirically evaluated on historical performance.  The Dharma debt issuance process requires a sole on-chain transaction and is inspired by the 0x Protocol.</div>
 
 ## Background
 
 > Claim: An under-recognized advantage of blockchains is that they necessarily engender the creation
 of universal, permission-less standards for tokenized asset classes.
 
-Token sale crowd-funding raised over $2B in 2017.  This demonstrates a market demand for crowd-sale offerings that compensate retail investors with assets that have equity-like<sup id="a1">[1](#f1)</sup>
- risk profiles.  Equity crowd-funding mechanisms, however, pre-date the ICO phenomenon significantly -- so how does one explain the sudden burst of interest? If equity crowd-sales have been technically feasibly and in production for years, what aspect of the token sale ecosystem did Ethereum uniquely enable from a technological perspective?  I posit that the answer is simple: the ERC20 token standard created the common rails on top of which a diverse ecosystem of secondary markets for tokens could be built in a permission-less and interoperable manner.  Judged on investor liquidity alone, token crowd-sales are a step-function improvement over the status quo of equity fundraising.
+Blockchain-based crowd-funding methods enabled over $2B in 2017.  This demonstrates a market demand for crowd-based offerings that compensate retail investors with assets that have equity-like<sup id="a1">[1](#f1)</sup>
+ risk profiles.  Equity crowd-funding mechanisms pre-date the blockchain-based crowd-funding phenomenon significantly.  It is assumed that the sudden burst of interest in equity-like crowd-sales is partially due to the ERC-20 token standard enabled by Ethereum.  The ERC20 token standard created a design pattern which reduced barriers to entry and facilitated a diverse ecosystem of secondary markets.  The permission-less and interoperable nature of the standard eased adoption.  
 
-In the existing financial system, however, the sum total capital raised by equity offerings is paltry in comparison to its big brother in the world of debt offering.  Debt markets, however, remain opaque and proprietary; raising capital by issuing debt, be it in a public or private offerings, is as bespoke and inefficient as equity offerings.  Consider the following: why not apply the token-sale model to debt fundraising?  
+In the traditional financial system, the total capital raised by equity offerings is much smaller than the amount raised by debt.  Debt markets, however, remain opaque, slow, non-standard and proprietary.  Raising capital by issuing debt, be it in a public or private offerings, is as bespoke and inefficient as traditional equity offerings.  
+
+Judged on investor liquidity alone, token-based crowd-sales are a step-function improvement over the status quo of equity fundraising.  If the token-sale model could be mapped to the debt issuance process a similar step function in improvement might be possible.  
 
 ## Introduction
 
-With the Dharma protocol and surrounding envisioned ecosystem, a corporation could issue a bond as an "ICO for debt" and represent bond ownership with ERC20 tokens to be sold in a token crowd-fund.  Ostensibly, a world where debt assets were represented by a permission-less, universal token standard would, similarly, be a step-function improvement over the status quo in terms of liquidity and transparency.   In order for liquid secondary markets to crop up in a similarly permission-less manner, however, investors would need a standardized mechanism of pricing tokenized debt.  Whereas equity-like tokens are tied in value to branded protocols, projects, or entities, debt-like tokens are tied in value to empirical financial obligations from counter-parties that are often anonymized.  The ERC20 standard, therefore, falls short of capturing the obligatory semantics of a debt asset insofar as it does not provide a means of:
+With Dharma protocol and the envisioned ecosystem a corporation could issue a bond as an "ICO for debt".  Ownership would mean possessing the private keys to a blockchain's address registered in an ERC20 token's registry.  In order for liquid secondary markets to crop up in a similarly permission-less manner, investors would need a standardized mechanism of pricing tokenized debt.  Equity-like tokens are tied in value to branded protocols, projects, or entities, debt-like tokens are tied in value to empirical financial obligations from counter-parties that are often anonymized.  The ERC20 standard, therefore, falls short of capturing the obligatory semantics of a debt insofar as it does not provide a means of:
 
-1. Retrieving machine-readable debt-specific metadata (e.g. principal, interest rates) associated with the assets
-2. Retrieving a history of payments between debtors and creditors in a debt asset's terms
-3. Pricing default risk into the debt asset's value
+1. Retrieving machine-readable debt-specific metadata (e.g. principal, interest rate, maturity, payment terms) associated with the assets
+2. Retrieving a history of payments to the token's owner
+3. Standardizing a blockchain-compatible pricing convention.
 
 ** The Dharma protocol intends to bridge the aforementioned gaps and provide a permission-less, generic mechanism by which debt assets of flexible type can be issued, sold, administered, and priced without having to rely on centralized data brokers of any kind.**
 
 ## Architecture
 
-Dharma protocol defines a procedure for issuing, funding, administering, and trading debt assets using a set of smart contracts, keeper marketplaces, and standardized interfaces elaborated on below.  Dharma is heavily inspired in design by the 0x decentralized exchange protocol<sup id="a2">[2](#f2)</sup>, using 0x Broadcast Order Messages as the blueprint on which we base Dharma Debt Orders, their analogous equivalent in Dharma protocol.  This mechanism will be explicitly formalized further in the paper.  The protocol is designed to support EVM blockchains, but could ostensibly be extended to support any blockchain with requisite generic smart contract functionality. First, we solidify some terminology.
+Dharma protocol defines a procedure for issuing, funding, administering, and trading tokenized debt using a set of smart contracts, keeper marketplaces, and standardized interfaces.  A major part of the architecture is influenced by the 0x decentralized exchange protocol<sup id="a2">[2](#f2)</sup>.  The Dharma protocol is designed to support EVM blockchains, but could ostensibly be extended to support any blockchain with requisite generic smart contract functionality. First, we solidify some terminology.
 
 ### Agents
 
@@ -48,7 +50,7 @@ We adopt the catchall term keepers<sup id="a3">[3](#f3)</sup> to encompass the u
 
 1. **Underwriters**<sup id="a4">[4](#f4)</sup>
 
-In traditional debt markets, underwriters are entities that collect fees for  administering the public issuance of debt and pricing borrower default risk into the asset.  In Dharma protocol, this definition is expanded and formalized. **An underwriter is a *trusted* entity that collects market-determined fees for performing the following functions:**  
+In traditional debt markets, underwriters are entities that collect fees for administering the issuance of debt.  Part of that role involves the enabling of default risk assessments.  In Dharma protocol, this definition is expanded formalized. **An underwriter is a *trusted* entity that collects market-determined fees for performing the following functions:**  
 
 - Originating a debt order from a borrower
 - Determining and negotiating the terms of the debt (i.e. term length, interest, amortization) with the potential debtor
