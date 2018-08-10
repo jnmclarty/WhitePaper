@@ -262,7 +262,7 @@ The Debt Order Handshake alluded to above is formalized as follows:
 
 ## Debt Repayment Process
 
-In order for the repayment status of any debt asset to be empirically evaluated on-chain, we define a repayment process in which repayments are facilitated by the Repayment Router contract and immutably recorded.
+In order for the repayment status of any debt to be empirically evaluated on-chain, we define a repayment process in which repayments are facilitated by the Repayment Router contract and immutably recorded.
 
 When a debtor wishes to make a repayment, they do the following:
 
@@ -273,7 +273,7 @@ When a debtor wishes to make a repayment, they do the following:
 
 ### Terms Contract Interface
 
-We require that any Debt issued via Dharma protocol commit to a smart contract, referred to as a Terms Contract.  The purpose of the Terms Contract is to provide an immutable and programmatically queryable source-of-truth revealing the repayment status of the debt.  This allows us to empirically and unambiguously both define the terms repayment scheme in the Debt Issuance process and evaluate the debt's repayment status during the debt's lifecycle both on and off-chain.  The interface of required functionality is as follows:
+We require that any Debt issued via Dharma protocol commit to a smart contract, referred to as a Terms Contract.  The purpose of the Terms Contract is to provide an immutable and method to query a source-of-truth revealing the repayment status of the debt.  This allows us to empirically and unambiguously both define the terms repayment scheme in the Debt Issuance process and evaluate the debt's repayment status during the debt's lifecycle both on and off-chain.  The interface of required functionality is as follows:
 
 ```
 interface TermsContract {
@@ -333,14 +333,14 @@ interface TermsContract {
 }
 ```
 
-Note that in the `getExpectedRepaymentValue` and `getValueRepaid` functions, repayments are defined abstractly in terms of 'units-of-value'.  The units by which repayments are measured are intentionally left undefined -- this gives debt issuers the flexibility to, say, denominate the expected repayment values in fiat currencies whilst executing the actual transactions in tokens.
+In the `getExpectedRepaymentValue` and `getValueRepaid` functions, the units for the repayments are intentionally left undefined.  This gives debt issuers the flexibility to denominate the expected repayment values in fiat currencies whilst executing the actual transactions in tokens.
 
 
 ## Defaults and Collections
 
-Dharma protocol is agnostic to the means by which underwriters deter defaults and go about collecting on debts.  Ostensibly, some underwriters could issue legally binding lending agreements with debtors off chain and collect on debts by leveraging the courts.  Alternatively, others could use on-chain collateralization schemes that leverage the functions exposed by a given debt's committed terms contract to release collateral to creditors in a trustless manner whenever the units-of-value repaid fall short of the expected units-of-value repaid.  
+Dharma protocol is agnostic to the means by which underwriters deter defaults and go about collecting on debts.  Ostensibly, some underwriters could issue legally binding lending agreements with debtors off chain and collect on debts by leveraging the courts.  Alternatively, others could use on-chain collateralization schemes that leverage the functions exposed by a given debt's terms contract to release collateral to creditors in a trustless manner whenever the units-of-value repaid fall short of the expected units-of-value repaid.  
 
-Innumerable other schemes could be constructed to disincentivize defaults -- **Dharma protocol doesn't advocate or design for any particular solution, but rather aims to provide a standard mechanism by which underwriters can be empirically evaluated for the performance of the debt assets they've attested to in the past**.  The market ought to gravitate towards rewarding underwriters whose past performance has been strong, and vice versa in punishing underwriters whose past performance has been weak.  The metric by which an underwriter's past performance can be evaluated is what we'll refer to as the $$F_{\beta}$$ metric, a function that borrows from the statistical analysis of binary classification in order to classify how accurate an underwriter's default predictions are:
+Innumerable other schemes could be constructed to disincentivize defaults -- **Dharma protocol doesn't advocate or design for any particular solution, but rather aims to provide a standard mechanism by which underwriters can be empirically evaluated for the performance of the debt assets they've attested to in the past**.  The market ought to gravitate towards rewarding underwriters whose past performance has been accurate and punishing underwriters whose past performance has been inaccurate.  The metric by which an underwriter's past performance can be evaluated is what we'll refer to as the $$F_{\beta}$$ metric, a function that borrows from the statistical analysis of binary classification in order to classify how accurate an underwriter's default predictions are:
 <div style="text-align: center">
   Let $$x \in {1,...,n}$$ be a debt in the underwriter’s portfolio of the $$n$$ debts he has attested to<br>
   Let $$\alpha _ x$$ be the total expected repayment value the borrower of $$x$$ is liable for at the end of $$x$$'s term<br>
@@ -353,7 +353,7 @@ Innumerable other schemes could be constructed to disincentivize defaults -- **D
   $$ F _ \beta=\frac{(1+\beta^2)pr}{\beta^2p + r} $$<br><br>
 </div>
 
-**It is crucial to emphasize that this is NOT a trustless, all-encompassing metric by which we evaluate an underwriter's performance -- fraudulent underwriters can game this metric in a variety of manners (see [Attacks](#attacks))**.  Rather, this is an empirical signal by which good-faith, trusted underwriters can be transparently evaluated.  The metric is a valuable performance signal for the market _only_ insofar as the underwriter is a trusted actor.
+**It is crucial to emphasize that this is NOT a trustless, all-encompassing metric by which we evaluate an underwriter's performance -- fraudulent underwriters can game this metric in a variety of manners (see [Attacks](#attacks))**.  Rather, this is an empirical signal by which good-faith, trusted underwriters can be transparently evaluated.  The metric is a performance signal for the market _only_ insofar as the underwriter is a trusted actor.
 
 ## Use Cases
 
