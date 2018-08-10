@@ -52,12 +52,13 @@ We adopt the catchall term keepers<sup id="a3">[3](#f3)</sup> to encompass the u
 
 In traditional debt markets, underwriters are entities that collect fees for administering the issuance of debt.  Part of that role involves the enabling of default risk assessments.  In Dharma protocol, this definition is expanded formalized. **An underwriter is a *trusted* entity that collects market-determined fees for performing the following functions:**  
 
-- Originating a debt order from a borrower
-- Determining and negotiating the terms of the debt (i.e. term length, interest, amortization) with the potential debtor
-- Cryptographically committing to the likelihood they ascribe to that debt relationship ending in default (process described in detail under [Specification](#specification))
-- Administering the debt order's funding by forwarding it to any number of relayers.
-- Servicing the debt -- i.e. doing everything in the underwriter's reasonable power to ensure timely repayment according to the agreed upon terms
-- In the case of defaults or delinquencies, collecting on collateral (if debt is secured) or the individual's assets via legal mechanisms and passing collected proceeds to investors
+- **Origination** - Originating a debt order from a borrower
+- **Setting Terms** - Determining and negotiating the terms of the debt (i.e. term length, interest, amortization) with the potential debtor
+- **Forecasting Default Risk** - Cryptographically committing to their likelihood they ascribe to that debt relationship ending in default (process described in detail under [Specification](#specification))
+- **Administration** - Administering the debt order's funding by forwarding it to any number of relayers.
+- **Facilitating Servicing** - The underwriter will collaborate with the borrower in order to ensure repayment according to the terms
+- **Facilitating Collection** - In the case of defaults or delinquencies, collecting on collateral (if debt is secured) or the individual's assets via legal mechanisms and passing collected proceeds to investors
+- **Charge Fees** - In exchange for the value-added services they charge fees.
 
 This is not particularly out of band with what most online lenders do in their day-to-day underwriting and servicing operations.  We foresee Dharma protocol facilitating an alternative, cheaper route for aspiring online lending platforms to bootstrap their operations and earn similar margins as they would in the status quo by becoming an underwriter -- all-the-while never holding balance sheet risk and avoiding the upfront time and capital costs associated with raising the requisite debt vehicles from traditional investors.
 
