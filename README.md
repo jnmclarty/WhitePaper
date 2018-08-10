@@ -82,23 +82,24 @@ This is similar to the role online lenders do in their day-to-day underwriting a
 
 ### Contracts
 
-Dharma protocol leverages several contracts deployed on the Ethereum network.  We highlight a few that are particularly relevant to understanding the prtocol's mechanics.
+Dharma protocol leverages several contracts deployed on the Ethereum network.  We highlight the core contracts relevant to understanding the protocol's mechanics.
 
 1. **Debt Kernel**
 
-The debt kernel is a simple smart contract that governs all business logic associated with minting non-fungible debt tokens, maintaining mappings between debt tokens and their associated term contracts, routing repayments from debtors to creditors, and routing fees to underwriters and relayers.  These mechanisms are easier to define within the context of the debt lifecycle, and are extensively elaborated on in the below specification.
+The debt kernel is a smart contract that governs all business logic associated with minting non-fungible debt tokens, maintaining mappings between debt tokens and their associated term contracts, routing repayments from debtors to creditors, and routing fees to underwriters and relayers.  
 
 2. **Terms Contract(s)**
 
-Terms contracts are Ethereum smart contracts that are the means by which debtors and creditors agree upon a common, deterministically defined set of repayment terms.  By extension, terms contracts expose a standard interface of methods for both registering debtor repayments, and programmatically querying the repayment status of the debt asset during and after the loan's term.  A single terms contract can be reused for any number of debt agreements that adhere to its repayment terms -- for instance, a terms contract defining a simple compounded interest repayment scheme can be committed to by any number of debtors and creditors. The exact interface for this is defined within the specification below.
+Terms contracts are Ethereum smart contracts that are the means by which debtors and creditors agree upon a common, deterministically defined set of repayment terms.  By extension, terms contracts expose a standard interface of methods for both registering debtor repayments, and programmatic querying the repayment status of the debt during and after the loan's term.  A single terms contract can be reused for any number of debt agreements that adhere to its repayment terms.  For instance, a terms contract defining a simple compounded interest repayment scheme can be committed to by any number of debtors and creditors. The exact interface for this is defined within the specification below.
 
-_Note: An alternative scheme for committing to loan terms would be to commit to a standardized schema of plaintext loan terms (a la Ricardian contracts<sup id="a5">[5](#f5)</sup>) on chain and assess loan repayment off-chain in client applications.  We deliberately opt not to pursue this scheme for several reasons.  Primarily, explicitly defining a universal schema for debt terms inherently limits the range of debt asset types that can be issued in the protocol, while a generic interface for terms contracts opens the door for an infinite array of debt term arrangements.  Moreover, committing to a terms contract on-chain removes any ambiguity from the evaluation of a loan's repayment status -- the contract is a single, programmatic, and immutable source of truth that is queryable by both contracts and clients.  Finally, having an on-chain provider of repayment status greatly simplifies the mechanisms by which on-chain collateralized debt agreements can be structured and collected on in cases of default._
+_Note: An alternative scheme for committing to loan terms would be to commit to a standardized schema of plaintext loan terms (a la Ricardian contracts<sup id="a5">[5](#f5)</sup>) on chain and assess loan repayment off-chain in client applications.  We deliberately opt not to pursue this scheme for several reasons.  Primarily, explicitly defining a universal schema for debt terms inherently limits the range of debt asset types that can be issued in the protocol, while a generic interface for terms contracts allows for an infinite array of debt term arrangements.  Committing to a terms contract on-chain removes any ambiguity from the evaluation of a loan's repayment status.  The contract is a single, programmatic, and immutable source of truth that can be queried by both contracts and clients.  Finally, having an on-chain provider of repayment status greatly simplifies the mechanisms by which on-chain collateralized debt agreements can be structured and maintained._
 
 3. **Repayment Router**
 
-The repayment router contract is constructed to trustlessly route repayments from debtors to debt agreement beneficiaries (i.e. owners of the debt tokens).  Additionally, the repayment router acts as a trusted oracle to the Terms Contract associated with any given debt agreement, reporting to it the exact details of each repayment as it occurs.  This enables the terms contract to serve as a trustless interface for determining the default status of a debt.
+The repayment router contract is constructed to trustlessly route repayments from debtors to the beneficiaries.  Additionally, the repayment router acts as a trusted oracle to the Terms Contract associated with any given debt agreement.  The repayment routers reports servicing events to the oracle they occur.  This enables the terms contract to serve as a trustless interface for determining the status of a debt.
 
 # Specification
+
 ## Overview
 The entire debt issuance process occurs synchronously in one on-chain transaction, when a signed debt order message is submitted to the Debt Kernel contract.  If the message is valid as per the below specification, the following happen in one transaction:
 
