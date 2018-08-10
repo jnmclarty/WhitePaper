@@ -101,13 +101,17 @@ The repayment router contract is constructed to trustlessly route repayments fro
 # Specification
 
 ## Overview
-The entire debt issuance process occurs synchronously in one on-chain transaction, when a signed debt order message is submitted to the Debt Kernel contract.  If the message is valid as per the below specification, the following happen in one transaction:
+The entire debt issuance process enumerated below occurs atomically in one on-chain transaction, when a valid signed debt order message is submitted to the Debt Kernel contract.
 
-1. The debtor's adherence to the chosen terms contract and the underwriter's prediction of default likelihood are committed to on-chain.
-2. A non-fungible, non-divisible debt token is minted to the creditor and mapped to the above commitment.
-3. The principal amount is transferred from the creditor to the debtor (minus fees) and any keepers' fees are similarly transferred from the creditor.
+1. The debtor's adherence to the chosen terms contract is captured.
+2. The underwriter's initial rating of default risk is captured.
+3. A non-fungible, non-divisible debt token is minted to the creditor and mapped to the above commitment.
+4. The principal amount is transferred from the creditor to the debtor, less fees
+5. Any keepers' fees are similarly transferred from the creditor.
 
-This process is detailed below.  First, we formalize the the format of data packets in the protocol.
+The implementation is explained in further detail below.  
+
+First, we formalize the format of data packets in the protocol.
 
 ## Message Types
 
@@ -115,11 +119,15 @@ Communications between the different agents and keepers in the protocol are comp
 
 ### Debt Orders
 
-Debt orders are data packets listed by relayers that are the fundamental primitive of Dharma protocol -- submitting a valid debt order to the Debt Kernel triggers the issuance of a debt token and its swap with the requested principal amount.  Dharma protocol is agnostic to the means by which creditors, debtors, underwriters, and relayers communicate and transfer debt order packets between one another -- A debt order can have up to 3 ECDSA signatures attached to it -- a debtor's signature, a creditor's signature, and an underwriter's signature.
+Debt Orders are data packets listed by relayers that are the fundamental primitive of Dharma protocol.  Submitting a valid debt order to the Debt Kernel triggers the issuance of a debt token and its swap with the requested principal amount.  Dharma protocol is agnostic to the means by which creditors, debtors, underwriters, and relayers communicate and transfer debt order packets between one another.  A debt order can have up to 3 ECDSA signatures attached to it:
+
+1. A debtor's signature
+2. A creditor's signature
+3. An underwriter's signature.
 
 The payload they sign depends on their role in the transaction -- debtors and creditors are required to sign the hash of the debt order (i.e. the **debt order hash**), while underwriters are required to sign only a subset of the fields in the debt order, which we refer to as the **underwriter commitment**.
 
-Moreover, not all 3 signatures must be attached to the debt order in order to submit it to the Debt Kernel -- if an agent or keeper is not involved in the transaction (i.e. their address in the debt order is null) **or** they _are_ involved but are also the party submitting the Debt Order to the Debt Kernel contract, then their signature is not mandated.
+Moreover, not all 3 signatures must be attached to the debt order in order to submit it to the Debt Kernel -- if an agent or keeper is not involved in the transaction (i.e. their address in the debt order is null) **or** they _are_ involved but are also the party submitting the Debt Order to the Debt Kernel contract, then their signature is not required.
 
 The debt order is comprised of the following fields:
 
@@ -131,21 +139,21 @@ The debt order is comprised of the following fields:
 | `principalAmount`                | `uint256`                 | Total units of principal token requested by the debtor.                                                                         |
 | `principalToken`                | `address`                 | Address of the ERC20 token used for principal payments.                                                                        |
 | `debtor` | `address`                  | Address of the debtor requesting the loan.                                                                 |
-| `debtorFee`                | `uint256`                 | Total units of principal token the that will be deducted from the debtor's principal as fees.  Note that the total number of fees paid by the debtor and creditor *must* equal the total amount of fees paid out to the underwriter and relayer.                                                                        |
-| `creditorFee`                | `uint256`                 | Total units of principal token the the creditor must pay on top of the principal amount.  Note that the total number of fees paid by the debtor and creditor *must* equal the total amount of fees paid out to the underwriter and relayer.                                                        |
+| `debtorFee`                | `uint256`                 | Total units of principal token that will be deducted from the debtor's principal as fees.  Note that the total fees paid by the debtor and creditor *must* equal the total fees paid to the underwriter and relayer.                                                                        |
+| `creditorFee`                | `uint256`                 | Total units of principal token the creditor must pay on top of the principal amount.  Note that the total fees paid by the debtor and creditor *must* equal the total fees paid to the underwriter and relayer.                                                        |
 | `relayer`                | `address`                 | Address of the relayer listing the given debt order.                                                                         |
 | `relayerFee`             | `uint256`                 | Total units of principal token the relayer will be paid out by the debt kernel when the debtor-creditor relationship is finalized. |
 |`underwriter`             | `address`                 | Address of the underwriter wishing to attest to the rating of this debt asset.                                                                                                                                                                                                                  |
 | `underwriterFee`          | `uint256`                 | Total units of principal token the underwriter will be paid out by the debt kernel when the debtor-creditor relationship is finalized.                                                                                                                                                                            |
-| `underwriterRiskRating`   | `uint32`                  | The underwriter's assessment of the average likelihood that any given unit-of-value the debtor is expected to pay will actually be repaid.  Must be a value between 0 and 1, encoded as an unsigned integer understood to have 9 decimal points (i.e. a 50% likelihood would be represented as `500000000`) |
+| `underwriterRiskRating`   | `uint32`                  | The underwriter's assessment of the probability that any given unit-of-value the debtor is expected to pay will be repaid.  Must be a value between 0 and 1, encoded as an unsigned integer understood to have 9 decimal points (i.e. a 50% likelihood would be represented as `500000000`) |
 | `termsContract`           | `address`                 | Address of the Terms Contract Interface adherent smart contract that defines the repayment terms of the debt.                                                                                                                                                                                               |
 | `termsContractParameters` | `bytes32`                  | Data packet of parameters ingested by the Terms Contract to commit to specific values relevant to the repayment terms (e.g. principal, interest rate, etc.)                                                                                                                                                 |
 | `expirationTimestamp`                | `uint256`                 | Unix timestamp of the time at which this order will no longer be valid if unfilled.                             |                                                             
-| `salt`                | `uint`                 | A pseudo-random salt value used ot differentiate the hashes of debt orders with identical parameters.                                                     |
+| `salt`                | `uint`                 | A pseudo-random salt value used to differentiate the hashes of debt orders with identical parameters.                                                     |
 
 ### Debt Issuance Commitments
 
-A debt issuance commitment is a subset of the debt order data packet that we consider separately in order to define a canonical, unique identifier for any given debt agreement.  The debt issuance commitment indicates the debtor's (and underwriter's) desire to mint a non-fungible debt token, where that debt token is to be immutably associated with a pairing `(TC, P)`, `TC` being the address of a deployed terms contract adhering to the Terms Contract Interface (see below) and `P` representing the set of parameters ingested by the contract at `TC`.  Moreover, the underwriter commits to a value `R` representing the underwriter's assessment of the average likelihood that the debtor will repay any given unit-of-value he is expected to, as defined by `(TC, P)`.  The hash of of this data packet is known as the **issuance hash**, which is used throughout the protocol as the canonical unique identifier of a debt agreement.
+A debt issuance commitment is a subset of the debt order data packet that we consider separately in order to define a canonical, unique identifier for any given debt agreement.  The debt issuance commitment indicates the debtor's and underwriter's desire to mint a non-fungible debt token, where that debt token is to be immutably associated with a pairing `(TC, P)`, `TC` being the address of a deployed terms contract adhering to the Terms Contract Interface (see below) and `P` representing the set of parameters ingested by the contract at `TC`.  Moreover, the underwriter commits to a value `R` representing the underwriter's assessment of the probability that the debtor will service the debt through maturity as defined by `(TC, P)`.  The hash of this data packet is known as the **issuance hash**, which is used throughout the protocol as the canonical unique identifier of a debt agreement.
 
 A sample schema for a debt issuance commitment follows:
 
@@ -154,14 +162,14 @@ A sample schema for a debt issuance commitment follows:
 | `issuanceVersion`                  | `address`                 | Address of the repayment router contract associated with this issuance commitment.                                                                                                                                                                                                                                   |
 | `debtor`                  | `address`                 | Address of the debtor wishing to mint a non-fungible debt token.                                                                                                                                                                                                                                            |
 | `underwriter`             | `address`                 | Address of the underwriter wishing to attest to the rating of this debt asset.                                                                                                                                                                                                                              |
-| `underwriterRiskRating`   | `uint32`                  | The underwriter's assessment of the average likelihood that any given unit-of-value the debtor is expected to pay will actually be repaid.  Must be a value between 0 and 1, encoded as an unsigned integer understood to have 9 decimal points (i.e. a 50% likelihood would be represented as `500000000`) |
+| `underwriterRiskRating`   | `uint32`                  | The underwriter's assessment of the probability that any given unit-of-value the debtor is expected to pay will actually be repaid.  Must be a value between 0 and 1, encoded as an unsigned integer understood to have 9 decimal points (i.e. a 50% likelihood would be represented as `500000000`) |
 | `termsContract`           | `address`                 | Address of the Terms Contract Interface adherent smart contract that defines the repayment terms of the debt.                                                                                                                                                                                               |
 | `termsContractParameters` | `string`                  | Data packet of parameters ingested by the Terms Contract to commit to specific values relevant to the repayment terms (e.g. principal, interest rate, etc.)                                                                                                                                                 |
 | `salt`                | `uint`                 | A pseudo-random salt value used ot differentiate the hashes of debt orders with identical parameters.                                                     |
 
 ### Debtor/Creditor Commitment Hash
 
-The debtor/creditor commitment hash is the payload signed by a debtor or creditor in order to indicate her consent to the parameters of the debt order.  It is comprised of the Keccak 256 hash of the the following subset of the debt order parameters:
+The debtor/creditor commitment hash is the payload signed by a debtor or creditor in order to indicate consent to the parameters of the debt order.  It is comprised of the Keccak 256 hash of the the following subset of the debt order parameters:
 
 | Name                     | Data Type                 | Description                                                                                                                  |
 |--------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------|
@@ -179,7 +187,7 @@ The debtor/creditor commitment hash is the payload signed by a debtor or credito
 
 ### Underwriter Commitment Hash
 
-The underwriter commitment hash is the payload signed by a underwriter in order to indicate her consent to the parameters of the debt order.  The underwriter is given a different subset of parameters to sign so that debtors will not need to request new signatures from the underwriter for each relayer with whom they broadcast their debt order -- we will elaborate on this further below.   The underwriter commitment is comprised of the Keccak 256 hash of the the following subset of the debt order parameters:
+The underwriter commitment hash is the payload signed by the underwriter in order to indicate consent to the parameters of the debt order.  The underwriter is given a different subset of parameters to sign so that debtors will not need to request new signatures from the underwriter for each relayer with whom they broadcast their debt order.  The underwriter commitment is comprised of the Keccak 256 hash of the the following subset of the debt order parameters:
 
 | Name                     | Data Type                 | Description                                                                                                                  |
 |--------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------|
@@ -191,13 +199,14 @@ The underwriter commitment hash is the payload signed by a underwriter in order 
 | `expirationTimestamp`                | `uint256`                 | Unix timestamp of the time at which this order will no longer be valid if unfilled.
 
 All together, a debt order is considered ready for submission if attached to it are:
+
 1. The debtor's ECDSA signature of the debtor/creditor commitment hash. (required unless the debtor is the address submitting the order to the Dharma smart contracts)
 2. The underwriter's ECDSA signature of the underwriter commitment hash (if no underwriter is present, or the underwriter is submitting the order to the Dharma smart contracts, this is not required)
 3. The creditor's ECDSA signature of the debtor/creditor commitment hash. (required unless the creditor is the address submitting the order to the Dharma smart contracts)
 
 ## Debt Issuance Process
 
-Any party that possesses a valid debt order with the requisite attached signatures can fill the order by submitting it to the Dharma smart contracts.  Submitting the debt order to the Dharma smart contracts kick starts a mechanism, described below, in which a debt agreement token is minted and synchronously swapped with the principal amount.  We will refer to arrangements in which a debtor fills a complete debt order as **Debtor-Filler Order Submissions** and arrangements in which a creditor fills a complete order as **Creditor-Filler Order Submissions**.
+Any party that possesses a valid debt order with the requisite attached signatures can fill the order by submitting it to the Dharma smart contracts.  Submitting the debt order to the Dharma smart contracts start a process described below, in which a debt agreement token is minted and atomically swapped with the principal amount.  We will refer to arrangements in which a debtor fills a complete debt order as **Debtor-Filler Order Submissions** and arrangements in which a creditor fills a complete order as **Creditor-Filler Order Submissions**.
 
 ### Creditor-Filler Order Submissions
 
@@ -207,17 +216,19 @@ The following steps correspond to the circled numbers in the above diagram:
 
 1. Debtor requests loan from an underwriter.
 2. Debt Order Handshake (described in detail further) occurs between the debtor, underwriter, and relayer(s), resulting in the relayer listing a valid, complete debt order.
-3. Creditor evaluates the terms of the Debt Order on a relayer's public order book.  
-4. If the creditor wants to fill the order, he first grants the token transfer proxy an approval for transferring an amount of tokens greater than or equal to `principal + creditorFee`  (i.e. using the ERC20 `approve` method).  Note that this step need not be repeated for every order the creditor fills -- a creditor can grant an `approval` to the token transfer proxy once for a very large number of tokens knowing that the contract will only withdraw from his account if he consents to it via his submission or signature of a debt order.
-
-5. The creditor then submits it directly to the Debt Kernel contract.  Note that his signature is not required in this scenario, given that his submission of the order to the kernel implicates his consent to its parameters.  Debt Kernel then issues to the creditor a non-fungible, non-divisible token representing the debtor's commitment to the terms contract and associated parameters.
+3. Creditor evaluates the terms of the Debt Order on a relayer's order book.  
+4. If the creditor wants to fill the order, he first grants the token transfer proxy an approval for transferring an amount of tokens greater than or equal to `principal + creditorFee`  (i.e. using the ERC20 `approve` method).  This step need not be repeated for every order the creditor fills.  A creditor can grant an `approval` to the token transfer proxy once for a very large number of tokens knowing that the contract will only withdraw from his account if he consents to it via his submission or signature of a debt order.
+5. The creditor then submits it directly to the Debt Kernel contract.  His signature is not required in this scenario, given that his submission of the order to the kernel implicates his consent to its parameters.  Debt Kernel then issues to the creditor a non-fungible, non-divisible token representing the debtor's commitment to the terms contract and associated parameters.
 6. The Debt Kernel transfers an amount of `principal - debtorFee` from the creditor to the debtor.
-7. The Debt Kernel transfers the underwriter her allotment of the fee, as defined by the  Debt Order.
-8. The Debt Kernel transfers the relayer his allotment of the fee, as defined by the Debt Order.
+7. The Debt Kernel transfers the underwriter's fee, as defined by the Debt Order.
+8. The Debt Kernel transfers the relayer's fee, as defined by the Debt Order.
 
 The Debtor-Maker scheme is advantageous for scenarios in which there are many potential creditors, and the debtor does not care to control the precise moment at which the debt is eventually issued.  For most use cases, the Debtor-Maker scheme would likely be most efficient.
 
 ### Debtor-Filler Orders
+
+The Debtor-Filler Orders are identical to the Creditor-Filler Order Submission, except step 3 to 7 replace step 3 to 5.
+
 ![](https://s3-us-west-2.amazonaws.com/dharma-assets/Debtor-Filler+2.png)
 
 The following steps correspond to the circled numbers in the above diagram:
@@ -230,11 +241,11 @@ The following steps correspond to the circled numbers in the above diagram:
 6. The relayer forwards the signed Debt Order to the debtor.
 7. At his convenience, the debtor submits the signed debt order to the Debt Kernel contract, which triggers the minting of a unique, non-fungible debt token to the creditor acting as a signatory of the debt order.
 8. The Debt Kernel transfers an amount of `principal - debtorFee` from the creditor to the debtor.
-9. The Debt Kernel transfers the underwriter her allotment of the fee, as defined by the  Debt Order.
-10. The Debt Kernel transfers the relayer his allotment of the fee, as defined by the Debt Order.
+9. The Debt Kernel transfers the underwriter's fee, as defined by the Debt Order.
+10. The Debt Kernel transfers the relayer's fee, as defined by the Debt Order.
 
-
-The Debtor-Filler scheme is advantageous for scenarios in which the debtor wants to synchronously borrow tokens as part of another, broader transaction.  For instance, if a smart contract requires a user pay a certain amount of storage-specific tokens (e.g. FileCoin, Storj, etc.) in order to make use of it, the user could include a valid, signed Debt Order obtained through the above scheme as an argument to the smart contract function call.  The smart contract could then submit the order on the debtor's behalf to the Debt Kernel, synchronously lending the debtor the necessary storage tokens and then debiting them to the smart contract in one transaction.  This greatly reduces the friction around executing transactions in virtually any context on borrowed credit.
+The Debtor-Filler scheme is advantageous for scenarios in which the debtor wants to atomically borrow tokens as part of another, broader transaction.  For instance, if a smart contract requires a user pay a certain amount of storage-specific tokens (e.g. FileCoin, Storj, etc.) in order to make use of it, the user could include a valid, signed Debt Order obtained through the above scheme as an argument to the smart contract function call.  The smart contract could then submit the order on the debtor's behalf to the Debt Kernel, atomically lending the debtor the necessary storage tokens and then debiting them to the smart contract in one transaction.  
+This reduces the friction surrounding settlement in many contexts.
 
 ### Debt Order Handshake
 
