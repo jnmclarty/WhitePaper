@@ -66,13 +66,19 @@ This is similar to the role online lenders do in their day-to-day underwriting a
 
 2. **Relayers**
 
-Relayers in Dharma protocol perform an analogous function to relayers in the 0x Protocol -- namely, relayers aggregate signed debt order messages and, for an agreed upon fee, host the messages in a centralized order book and provide retail investors with the ability to invest in the requested debt orders by filling the signed debt orders.  Note that, similarly to the 0x relaying mechanism, Dharma Protocol relayers need not hold any agent's tokens -- they simply provide a mechanism for creditors to browse through aggregated signed debt order messages, which creditors can use to trustlessly issue themselves debt tokens in exchange for the requested principal via client-side contract interactions (this mechanism is specified later in this paper).  The primary differences between relayers in Dharma protocol and 0x are:
+ A Dharma Debt Order is similar to the 0x Broadcast Order Messages. Relayers in Dharma protocol perform an analogous function to relayers in the 0x Protocol.  The responsibilities of Relayers is called out below.  
+ 
+ - **Aggregate Orders** - Relayers aggregate signed debt order messages
+ - **Book Building** - host the messages in a centralized order book and expose this to an audience of investors
+ - **Execute** - Matching of orders is completed by signing debt orders  
+ 
+ Note that, similarly to the 0x relaying mechanism, Dharma Protocol relayers need not hold any tokens.  They only provide a mechanism for creditors to browse through aggregated signed debt order messages, which creditors can use to trustlessly issue themselves debt tokens in exchange for the requested principal via client-side contract interactions (this mechanism is specified later in this paper).  The primary differences between relayers in Dharma protocol and 0x are:
 
 1. Dharma protocol relayers are not hosting a secondary market order book, but rather, an order book containing requests for debts that have yet to be issued
-2. Dharma protocol relayers provide creditors with signed debt-specific metadata associated with the debt order messages and their accompanying underwriter so that they can make informed investment decisions about the risk profile of a given debt order.
-3. Dharma protocol relayers do not freely allow any anonymous party to publish signed debt orders on to their order book, and use their discretion to only accept signed debt orders from known, trusted underwriters.
+2. Dharma protocol relayers provide creditors with signed debt-specific metadata associated with the debt order messages and their accompanying underwriter so that they can make investment decisions about a debt order.
+3. Dharma protocol relayers do not freely allow any anonymous party to publish signed debt orders on to their order book, and use their discretion to only accept signed debt orders from their proprietary list of underwriters.
 
-> Example: Bob wants to build a retail loan investor portal through which users can invest in a variety of debt assets -- a Kayak for peer-to-peer loans, if you will.  Bob becomes a Dharma protocol relayer by setting up an online order book, building a retail investment platform, and allowing investors to browse through debt requests and examine associated data pertaining to the debtors' credit worthiness and the identity of the backing underwriters.  Since Bob has seen that the empirical historical performance of Alice's attested assets has been in line with her predictions and knows that Alice's company is a publicly trusted and regulated entity, Bob allows Alice to broadcast signed debt orders onto his order book.  When a debt order is filled on his platform, Bob is paid out a fee stipulated in the signed debt order.  
+> Example: Bob wants to build a retail loan investor portal through which users can invest in a variety of debt.  Bob becomes a Dharma protocol relayer by setting up an online order book, building an investment platform, and allowing investors to browse through debt requests and examine associated data pertaining to the debtors' credit worthiness and the identity of the backing underwriters.  Since Bob has seen that the empirical historical performance of Alice's attested assets has been in line with her ratings and knows that Alice's company is a publicly trusted and regulated entity, Bob allows Alice to broadcast signed debt orders onto his order book.  When a debt order is filled on his platform, Bob is paid out a fee stipulated in the signed debt order.  
 
 ### Contracts
 
